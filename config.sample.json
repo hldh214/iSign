@@ -1,0 +1,16 @@
+{
+    "fishc.com": {
+        "kitten": "dz_k_misign",
+        "config": {
+            "cookie": "",
+            "base_url": "http://bbs.fishc.com/"
+        }
+    },
+    "zbbs.jd.com": {
+        "kitten": "dz_k_misign",
+        "config": {
+            "cookie": "",
+            "base_url": "https://zbbs.jd.com/"
+        }
+    }
+}
