@@ -1,5 +1,14 @@
 {
+    "hldh214@tieba": {
+        "enable": true,
+        "kitten": "tieba",
+        "config": {
+            "bduss": "",
+            "stoken": ""
+        }
+    },
     "fishc.com": {
+        "enable": false,
         "kitten": "dz_k_misign",
         "config": {
             "cookie": "",
@@ -7,6 +16,7 @@
         }
     },
     "zbbs.jd.com": {
+        "enable": false,
         "kitten": "dz_k_misign",
         "config": {
             "cookie": "",
