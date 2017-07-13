@@ -6,7 +6,7 @@
 
 ## config.sample
 
-``` json
+``` js
 {
     "task_name": {
         "schedule": {
