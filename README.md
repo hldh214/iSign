@@ -4,6 +4,12 @@
 
 ----------------
 
+## usage
+
+`C:\Python34\python.exe E:/iSign/iSign.py ./config.json`
+
+----------------
+
 ## config.sample
 
 ``` js
