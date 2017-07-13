@@ -3,9 +3,9 @@ import schedule
 import time
 from collections import OrderedDict
 from importlib import import_module
-from pathlib import Path
+from sys import argv
 
-with open(str(Path('./config.json').resolve())) as fp:
+with open(argv[1]) as fp:
     config = json.load(fp, object_pairs_hook=OrderedDict)
     for key, value in config.items():
         if not value['enable']:
