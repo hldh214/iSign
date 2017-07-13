@@ -2,8 +2,8 @@
     "hldh214@tieba": {
         "schedule": {
             "interval": 2,
-            "unit": "hour",
-            "at_time": ""
+            "unit": "hours",
+            "at_time": null
         },
         "enable": false,
         "kitten": "tieba",
