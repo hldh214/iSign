@@ -13,9 +13,15 @@ with open('./config.json') as fp:
         kitten = import_module('kittens.{}'.format(value['kitten'])).Kitten(value['config'])
         kitten_schedule = value['schedule']
 
-        getattr(
+        schedule_unit = getattr(
             schedule.every(kitten_schedule['interval']), kitten_schedule['unit']
-        ).at(kitten_schedule['at_time']).do(kitten.meow)
+        )
+
+        if kitten_schedule['at_time'] is None:
+            schedule_unit.do(kitten.meow)
+            continue
+
+        schedule_unit.at(kitten_schedule['at_time']).do(kitten.meow)
 
 while True:
     schedule.run_pending()
