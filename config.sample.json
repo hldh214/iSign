@@ -1,6 +1,11 @@
 {
     "hldh214@tieba": {
-        "enable": true,
+        "schedule": {
+            "interval": 2,
+            "unit": "hour",
+            "at_time": ""
+        },
+        "enable": false,
         "kitten": "tieba",
         "config": {
             "bduss": "",
@@ -8,19 +13,16 @@
         }
     },
     "fishc.com": {
-        "enable": false,
+        "schedule": {
+            "interval": 1,
+            "unit": "hour",
+            "at_time": ""
+        },
+        "enable": true,
         "kitten": "dz_k_misign",
         "config": {
             "cookie": "",
             "base_url": "http://bbs.fishc.com/"
-        }
-    },
-    "zbbs.jd.com": {
-        "enable": false,
-        "kitten": "dz_k_misign",
-        "config": {
-            "cookie": "",
-            "base_url": "https://zbbs.jd.com/"
         }
     }
 }
