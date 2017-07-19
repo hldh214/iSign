@@ -12,17 +12,31 @@
             "stoken": ""
         }
     },
-    "fishc.com": {
+    "hldh214@fishc.com": {
         "schedule": {
             "interval": 1,
-            "unit": "hour",
-            "at_time": ""
+            "unit": "day",
+            "at_time": "00:30"
         },
         "enable": true,
         "kitten": "dz_k_misign",
         "config": {
             "cookie": "",
             "base_url": "http://bbs.fishc.com/"
+        }
+    },
+    "hldh214@panda.tv": {
+        "schedule": {
+            "interval": 1,
+            "unit": "day",
+            "at_time": "00:30"
+        },
+        "enable": true,
+        "kitten": "panda_tv",
+        "config": {
+            "account": "",
+            "password": "",
+            "pdft": ""
         }
     }
 }
