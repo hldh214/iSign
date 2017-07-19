@@ -1,9 +1,10 @@
 import json
-import schedule
 import time
 from collections import OrderedDict
 from importlib import import_module
 from sys import argv
+
+import schedule
 
 with open(argv[1]) as fp:
     config = json.load(fp, object_pairs_hook=OrderedDict)
