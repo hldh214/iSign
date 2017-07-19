@@ -8,6 +8,10 @@
 
 `C:\Python34\python.exe E:/iSign/iSign.py ./config.json`
 
+## run immediately && tests
+
+`python3 -m unittest tests/test_kittens.py`
+
 ----------------
 
 ## config.sample
