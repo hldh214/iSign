@@ -38,5 +38,18 @@
             "password": "",
             "pdft": ""
         }
+    },
+    "2242110576@mobile.qq": {
+        "schedule": {
+            "interval": 1,
+            "unit": "day",
+            "at_time": "00:30"
+        },
+        "enable": true,
+        "kitten": "mobile_qq",
+        "config": {
+            "usn": "",
+            "pwd": ""
+        }
     }
 }
