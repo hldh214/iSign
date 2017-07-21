@@ -8,6 +8,7 @@ class Kitten:
     def __init__(self, config):
         qq = qqlib.QQ(config['usn'], config['pwd'])
         qq.login()
+        self.usn = config['usn']
         self.skey = qq.session.cookies.get('skey')
 
     @staticmethod
@@ -21,20 +22,20 @@ class Kitten:
         for each in self.skey:
             self.bkn += self.int_overflow(self.bkn << 5) + ord(each)
 
+        headers = {
+            'cookie': 'uin={0}; skey={1}'.format(self.usn, self.skey)
+        }
+
         return grequests.map((
             # clock_in
             grequests.get(
                 'https://ti.qq.com/cgi-node/signin/pickup',
-                headers={
-                    'cookie': 'uin=2242110576; skey={0}'.format(self.skey)
-                }
+                headers=headers
             ),
             # qq_qun_gift
             grequests.post(
                 'http://pay.qun.qq.com/cgi-bin/group_pay/good_feeds/draw_lucky_gift',
                 data='bkn={}'.format(self.bkn),
-                headers={
-                    'cookie': 'uin=2242110576; skey={0}'.format(self.skey)
-                }
+                headers=headers
             )
         ))

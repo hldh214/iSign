@@ -50,4 +50,4 @@ with open(argv[1]) as fp:
 
 while True:
     schedule.run_pending()
-    time.sleep(10)
+    time.sleep(60)
