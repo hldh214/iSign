@@ -4,10 +4,7 @@ import qqlib
 
 class Kitten:
     def __init__(self, config):
-        qq = qqlib.QQ(config['usn'], config['pwd'])
-        qq.login()
-        self.usn = config['usn']
-        self.skey = qq.session.cookies.get('skey')
+        self.config = config
 
     def gen_bkn(self, skey, var_i=5381):
         for each in skey:
@@ -23,8 +20,12 @@ class Kitten:
         return val
 
     def meow(self):
+        qq = qqlib.QQ(self.config['usn'], self.config['pwd'])
+        qq.login()
+
+        skey = qq.session.cookies.get('skey')
         headers = {
-            'cookie': 'uin={0}; skey={1}'.format(self.usn, self.skey)
+            'cookie': 'uin={0}; skey={1}'.format(self.config['usn'], skey)
         }
 
         return grequests.map((
@@ -36,7 +37,7 @@ class Kitten:
             # qq_qun_gift
             grequests.post(
                 'http://pay.qun.qq.com/cgi-bin/group_pay/good_feeds/draw_lucky_gift',
-                data='bkn={}'.format(self.gen_bkn(self.skey)),
+                data='bkn={}'.format(self.gen_bkn(skey)),
                 headers=headers
             )
         ))
