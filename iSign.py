@@ -15,10 +15,6 @@ logger = logging.getLogger('schedule')
 
 
 class SafeScheduler(Scheduler):
-    def __init__(self, reschedule_on_failure=True):
-        self.reschedule_on_failure = reschedule_on_failure
-        super().__init__()
-
     def _run_job(self, job):
         try:
             super()._run_job(job)
