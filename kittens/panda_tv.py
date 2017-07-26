@@ -20,15 +20,12 @@ class Kitten:
         return b64encode(ciphertext).decode()
 
     def meow(self):
-        self.opener.get('https://u.panda.tv/get_pdft', params={
-            'pdftsrc': '{{"smid":"{0}"}}'.format(self.config['pdft'])
-        })
-
         res = self.opener.get('https://u.panda.tv/ajax_aeskey').json()
 
         res = self.opener.get('https://u.panda.tv/ajax_login', params={
             'account': self.config['account'],
             'password': self.encrypt(self.config['password'], res['data']),
+            'pdftsrc': '{{"smid":"{0}"}}'.format(self.config['pdft']),
             '__plat': 'pc_web'
         }).json()
 
