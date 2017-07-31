@@ -8,7 +8,7 @@ from sys import argv
 from traceback import format_exc
 
 from schedule import Scheduler
-from requests.exceptions import BaseHTTPError
+from requests.exceptions import RequestException
 
 logger = logging.getLogger('schedule')
 
@@ -20,7 +20,7 @@ class SafeScheduler(Scheduler):
             result = super()._run_job(job)
             if not result:
                 raise RuntimeError('RuntimeError func.__name__: {0}'.format(job.__name__))
-        except (RuntimeError, BaseHTTPError):
+        except (RuntimeError, RequestException):
             logger.error(format_exc())
             job.last_run = datetime.datetime.now()
             job._schedule_next_run()
