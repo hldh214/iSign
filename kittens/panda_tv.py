@@ -25,7 +25,7 @@ class Kitten:
         res = self.opener.get('https://u.panda.tv/ajax_login', params={
             'account': self.config['account'],
             'password': self.encrypt(self.config['password'], res['data']),
-            'pdftsrc': '{{"smid":"{0}"}}'.format(self.config['pdft']),
+            'pdftsrc': '{{"os":"web","smid":"{0}"}}'.format(self.config['pdft']),
             '__plat': 'pc_web'
         }).json()
 
