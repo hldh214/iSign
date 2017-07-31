@@ -19,7 +19,7 @@ class SafeScheduler(Scheduler):
         try:
             result = super()._run_job(job)
             if not result:
-                raise RuntimeError('RuntimeError func.__name__: {0}'.format(job.__name__))
+                raise RuntimeError('RuntimeError func.__name__: {0}'.format(job.job_func.__name__))
         except (RuntimeError, RequestException):
             logger.error(format_exc())
             job.last_run = datetime.datetime.now()
