@@ -19,7 +19,7 @@ class SafeScheduler(Scheduler):
         try:
             result = super()._run_job(job)
             if not result:
-                raise RuntimeError('RuntimeError func.__name__: {0}'.format(job.job_func.__name__))
+                raise RuntimeError('RuntimeError tags: {0}'.format(job.tags))
         except (RuntimeError, RequestException):
             logger.error(format_exc())
             job.last_run = datetime.datetime.now()
@@ -40,11 +40,10 @@ with open(argv[1]) as fp:
             schedule.every(kitten_schedule['interval']), kitten_schedule['unit']
         )
 
-        if kitten_schedule['at_time'] is None:
-            schedule_unit.do(kitten.meow)
-            continue
+        if kitten_schedule['at_time'] is not None:
+            schedule_unit = schedule_unit.at(kitten_schedule['at_time'])
 
-        schedule_unit.at(kitten_schedule['at_time']).do(kitten.meow)
+        schedule_unit.do(kitten.meow).tag(kitten.__class__.__module__.split('.')[-1])
 
 while True:
     schedule.run_pending()
