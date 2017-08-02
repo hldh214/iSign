@@ -4,12 +4,13 @@ import logging
 import datetime
 from collections import OrderedDict
 from importlib import import_module
-from sys import argv
+from sys import argv, stdout
 from traceback import format_exc
 
 from schedule import Scheduler
 from requests.exceptions import RequestException
 
+logging.basicConfig(stream=stdout, level=logging.INFO, format='%(asctime)s - %(message)s')
 logger = logging.getLogger('schedule')
 
 
@@ -19,7 +20,8 @@ class SafeScheduler(Scheduler):
         try:
             result = super()._run_job(job)
             if not result:
-                raise RuntimeError('RuntimeError tags: {0}'.format(job.tags))
+                raise RuntimeError('RuntimeError - {0}'.format(job.tags))
+            logger.info('success - {0}'.format(job.tags))
         except (RuntimeError, RequestException):
             logger.error(format_exc())
             job.last_run = datetime.datetime.now()
