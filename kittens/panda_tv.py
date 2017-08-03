@@ -12,7 +12,7 @@ class Kitten:
 
     @staticmethod
     def encrypt(text, key, iv='995d1b5ebbac3761'):
-        cryptor = AES.new(key, mode=AES.MODE_CBC, IV=iv)
+        cryptor = AES.new(key.encode(), mode=AES.MODE_CBC, IV=iv.encode())
         text = text.encode("utf-8")
         add = 16 - (len(text) % 16)
         text = text + (b'\0' * add)
