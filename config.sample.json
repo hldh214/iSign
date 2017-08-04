@@ -1,11 +1,11 @@
 {
     "hldh214@tieba": {
         "schedule": {
-            "interval": 2,
-            "unit": "hours",
-            "at_time": null
+            "interval": 1,
+            "unit": "day",
+            "at_time": "00:10"
         },
-        "enable": false,
+        "enable": true,
         "kitten": "tieba",
         "config": {
             "bduss": "",
@@ -16,7 +16,7 @@
         "schedule": {
             "interval": 1,
             "unit": "day",
-            "at_time": "00:30"
+            "at_time": "00:01"
         },
         "enable": true,
         "kitten": "dz_k_misign",
@@ -29,7 +29,7 @@
         "schedule": {
             "interval": 1,
             "unit": "day",
-            "at_time": "00:30"
+            "at_time": "00:01"
         },
         "enable": true,
         "kitten": "panda_tv",
@@ -43,11 +43,12 @@
         "schedule": {
             "interval": 1,
             "unit": "day",
-            "at_time": "00:30"
+            "at_time": "00:01"
         },
         "enable": true,
-        "kitten": "mobile_qq",
+        "kitten": "mobile_qq_ng",
         "config": {
+            "binary_location": "/opt/google/chrome/chrome",
             "usn": "",
             "pwd": ""
         }

@@ -2,3 +2,4 @@ requests==2.18.*
 grequests==0.3.0
 schedule==0.4.3
 qqlib==1.1.1
+selenium==3.4.3
