@@ -18,11 +18,8 @@ logger = logging.getLogger('schedule')
 class SafeScheduler(Scheduler):
     def _run_job(self, job):
         try:
-            result = super()._run_job(job)
-            if not result:
-                raise RuntimeError('RuntimeError - {0}'.format(job.tags))
-            logger.info('success - {0}'.format(job.tags))
-        except (RuntimeError, RequestException):
+            super()._run_job(job)
+        except RequestException:
             logger.error(format_exc())
             job.last_run = datetime.datetime.now()
             job._schedule_next_run()
