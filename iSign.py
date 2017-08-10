@@ -2,6 +2,7 @@ import json
 import time
 import logging
 import datetime
+import threading
 from collections import OrderedDict
 from importlib import import_module
 from sys import argv, stdout
@@ -10,7 +11,7 @@ from traceback import format_exc
 from schedule import Scheduler
 from requests.exceptions import RequestException
 
-logging.basicConfig(stream=stdout, level=logging.INFO, format='%(asctime)s - %(message)s')
+logging.basicConfig(stream=stdout, level=logging.ERROR, format='%(asctime)s - %(message)s')
 logger = logging.getLogger('schedule')
 
 
@@ -23,6 +24,12 @@ class SafeScheduler(Scheduler):
             logger.error(format_exc())
             job.last_run = datetime.datetime.now()
             job._schedule_next_run()
+
+
+# ref: https://schedule.readthedocs.io/en/stable/faq.html#how-to-execute-jobs-in-parallel
+def run_threaded(job_func):
+    job_thread = threading.Thread(target=job_func)
+    job_thread.start()
 
 
 with open(argv[1]) as fp:
@@ -42,7 +49,7 @@ with open(argv[1]) as fp:
         if kitten_schedule['at_time'] is not None:
             schedule_unit = schedule_unit.at(kitten_schedule['at_time'])
 
-        schedule_unit.do(kitten.meow).tag(kitten.__class__.__module__.split('.')[-1])
+        schedule_unit.do(run_threaded, kitten.meow)
 
 while True:
     schedule.run_pending()
