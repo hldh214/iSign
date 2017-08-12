@@ -20,7 +20,7 @@ class SafeScheduler(Scheduler):
     def _run_job(self, job):
         try:
             super()._run_job(job)
-        except RequestException:
+        except (RuntimeError, RequestException):
             logger.error(format_exc())
             job.last_run = datetime.datetime.now()
             job._schedule_next_run()
