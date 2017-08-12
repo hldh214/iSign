@@ -49,7 +49,7 @@ with open(argv[1]) as fp:
         if kitten_schedule['at_time'] is not None:
             schedule_unit = schedule_unit.at(kitten_schedule['at_time'])
 
-        schedule_unit.do(run_threaded, kitten.meow)
+        schedule_unit.do(kitten.meow)
 
 while True:
     schedule.run_pending()
