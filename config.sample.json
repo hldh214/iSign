@@ -36,7 +36,8 @@
         "config": {
             "account": "",
             "password": "",
-            "pdft": ""
+            "pdft": "",
+            "badge_types": ["kpl", "pandakill"]
         }
     },
     "2242110576@mobile.qq": {
