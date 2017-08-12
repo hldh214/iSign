@@ -47,6 +47,7 @@
             "at_time": "00:01"
         },
         "enable": true,
+        "multi_thread": false,
         "kitten": "mobile_qq_ng",
         "config": {
             "binary_location": "/opt/google/chrome/chrome",
