@@ -1,5 +1,5 @@
-import requests
 import grequests
+import requests
 import re
 from hashlib import md5
 from collections import OrderedDict

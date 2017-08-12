@@ -13,7 +13,7 @@ class Kitten:
         req = requests.get(hash_url, headers=headers)
         formhash = re_hash.findall(req.text)
         if not formhash:
-            return False
+            raise RuntimeError('Fail to login')
         sign_url = '{0}/plugin.php?id=k_misign:sign&operation=qiandao&formhash={1}'.format(
             self.config['base_url'], formhash[0]
         )
