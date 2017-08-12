@@ -1,6 +1,7 @@
 import re
 from base64 import b64encode
 
+import grequests
 import requests
 from Crypto.Cipher import AES
 
@@ -19,6 +20,9 @@ class Kitten:
         ciphertext = cryptor.encrypt(text)
         return b64encode(ciphertext).decode()
 
+    def gen_requests(self, url, params):
+        return grequests.get(url, params=params, session=self.opener)
+
     def meow(self):
         res = self.opener.get('https://u.panda.tv/ajax_aeskey').json()
 
@@ -30,19 +34,29 @@ class Kitten:
         }).json()
 
         if res['errno'] != 0:
-            return False
+            raise RuntimeError('Fail to login')
 
         res = self.opener.get('https://m.panda.tv/sign/index').text
 
         token = re.search(r'name="token"\s+value="(\w+)"', res)
-
         lottery_param = re.search(r'"key":\s*"(?P<app>[\w-]+)",\s*"date":\s*"(?P<validate>[\d-]+)"', res)
 
-        self.opener.get('https://m.panda.tv/api/sign/apply_sign', params={
-            'token': token.group(1)
-        }).json()
+        if not (token and lottery_param):
+            raise RuntimeError('Fail to get token')
 
-        return self.opener.get('https://roll.panda.tv/ajax_roll_draw', params={
-            'app': lottery_param.group('app'),
-            'validate': lottery_param.group('validate')
-        })
+        return grequests.map(
+            [
+                self.gen_requests('https://m.panda.tv/api/sign/apply_sign', {
+                    'token': token.group(1)
+                }),
+                self.gen_requests('https://roll.panda.tv/ajax_roll_draw', {
+                    'app': lottery_param.group('app'),
+                    'validate': lottery_param.group('validate')
+                }),
+            ] + [
+                self.gen_requests('https://pharah.gate.panda.tv/badge/get_badge', {
+                    'token': token.group(1),
+                    'type': badge_type
+                }) for badge_type in self.config['badge_types']
+            ]
+        )
