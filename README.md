@@ -4,6 +4,14 @@
 
 ----------------
 
+## requirements
+
+`pip install -r requirements.txt`
+
+### PyCrypto
+
+ > https://github.com/Legrandin/pycryptodome
+
 ## usage
 
 `C:\Python34\python.exe E:/iSign/iSign.py ./config.json`
