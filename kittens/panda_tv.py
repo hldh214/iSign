@@ -1,6 +1,7 @@
 import re
 from base64 import b64encode
 from functools import partial
+from time import sleep
 
 import grequests
 import requests
@@ -44,7 +45,7 @@ class Kitten:
 
         gen_requests = partial(grequests.request, session=self.opener)
 
-        return grequests.map(
+        res = grequests.map(
             [
                 gen_requests('GET', 'https://m.panda.tv/api/sign/apply_sign', params={
                     'token': token.group(1)
@@ -53,9 +54,9 @@ class Kitten:
                     'app': lottery_param.group('app'),
                     'validate': lottery_param.group('validate')
                 }),
-                gen_requests('POST', 'http://lvxing.pgc.panda.tv/api/badge/get', data={
+                gen_requests('GET', 'http://lvxing.pgc.panda.tv/api/badge/task', params={
                     'token': token.group(1)
-                }),
+                })
             ] + [
                 gen_requests('GET', 'https://pharah.gate.panda.tv/badge/get_badge', params={
                     'token': token.group(1),
@@ -63,3 +64,12 @@ class Kitten:
                 }) for badge_type in self.config['badge_types']
             ]
         )
+
+        if res[2].json()['errno'] == 0:
+            countdown = res[2].json()['data']['countdown'] / 1000
+            sleep(countdown)  # 7 min normally
+            res.append(self.opener.post('http://lvxing.pgc.panda.tv/api/badge/get', data={
+                'token': token.group(1)
+            }))
+
+        return res
