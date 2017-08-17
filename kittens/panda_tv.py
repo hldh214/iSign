@@ -1,5 +1,6 @@
 import re
 from base64 import b64encode
+from functools import partial
 
 import grequests
 import requests
@@ -19,9 +20,6 @@ class Kitten:
         text = text + (b'\0' * add)
         ciphertext = cryptor.encrypt(text)
         return b64encode(ciphertext).decode()
-
-    def gen_requests(self, url, params):
-        return grequests.get(url, params=params, session=self.opener)
 
     def meow(self):
         res = self.opener.get('https://u.panda.tv/ajax_aeskey').json()
@@ -44,17 +42,22 @@ class Kitten:
         if not (token and lottery_param):
             raise RuntimeError('Fail to get token')
 
+        gen_requests = partial(grequests.request, session=self.opener)
+
         return grequests.map(
             [
-                self.gen_requests('https://m.panda.tv/api/sign/apply_sign', {
+                gen_requests('GET', 'https://m.panda.tv/api/sign/apply_sign', params={
                     'token': token.group(1)
                 }),
-                self.gen_requests('https://roll.panda.tv/ajax_roll_draw', {
+                gen_requests('GET', 'https://roll.panda.tv/ajax_roll_draw', params={
                     'app': lottery_param.group('app'),
                     'validate': lottery_param.group('validate')
                 }),
+                gen_requests('POST', 'http://lvxing.pgc.panda.tv/api/badge/get', data={
+                    'token': token.group(1)
+                }),
             ] + [
-                self.gen_requests('https://pharah.gate.panda.tv/badge/get_badge', {
+                gen_requests('GET', 'https://pharah.gate.panda.tv/badge/get_badge', params={
                     'token': token.group(1),
                     'type': badge_type
                 }) for badge_type in self.config['badge_types']
