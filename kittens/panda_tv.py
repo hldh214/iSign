@@ -1,4 +1,3 @@
-import re
 from base64 import b64encode
 from functools import partial
 from time import sleep
@@ -11,7 +10,6 @@ from Crypto.Cipher import AES
 class Kitten:
     def __init__(self, config):
         self.config = config
-        self.opener = requests.session()
 
     @staticmethod
     def encrypt(text, key, iv='995d1b5ebbac3761'):
@@ -23,53 +21,49 @@ class Kitten:
         return b64encode(ciphertext).decode()
 
     def meow(self):
-        res = self.opener.get('https://u.panda.tv/ajax_aeskey').json()
-
-        res = self.opener.get('https://u.panda.tv/ajax_login', params={
+        opener = requests.session()
+        res = opener.get('https://u.panda.tv/ajax_aeskey').json()
+        res = opener.get('https://u.panda.tv/ajax_login', params={
             'account': self.config['account'],
             'password': self.encrypt(self.config['password'], res['data']),
-            'pdftsrc': '{{"os":"web","smid":"{0}"}}'.format(self.config['pdft']),
-            '__plat': 'pc_web'
-        }).json()
+            '__plat': 'pc_web',
+            'pdftsrc': '{"os":"web","smid":"243a98fe-643d-4218-a85d-b05b08744118"}'
+        })
+        token = res.cookies.get('I')[-32:]
 
-        if res['errno'] != 0:
-            raise RuntimeError('Fail to login')
-
-        res = self.opener.get('https://m.panda.tv/sign/index').text
-
-        token = re.search(r'name="token"\s+value="(\w+)"', res)
-        lottery_param = re.search(r'"key":\s*"(?P<app>[\w-]+)",\s*"date":\s*"(?P<validate>[\d-]+)"', res)
-
-        if not (token and lottery_param):
+        if not token:
             raise RuntimeError('Fail to get token')
 
-        gen_requests = partial(grequests.request, session=self.opener)
+        gen_requests = partial(grequests.request, session=opener)
 
         res = grequests.map(
             [
-                gen_requests('GET', 'https://m.panda.tv/api/sign/apply_sign', params={
-                    'token': token.group(1)
-                }),
-                gen_requests('GET', 'https://roll.panda.tv/ajax_roll_draw', params={
-                    'app': lottery_param.group('app'),
-                    'validate': lottery_param.group('validate')
-                }),
+                # lvxing step 1
                 gen_requests('GET', 'http://lvxing.pgc.panda.tv/api/badge/task', params={
-                    'token': token.group(1)
+                    'token': token
+                }),
+                # client_sign
+                gen_requests('GET', 'https://m.panda.tv/sign/index'),
+                # http://www.panda.tv/sp/fornew2017.html
+                gen_requests('GET', 'http://roll.panda.tv/ajax_sign', params={
+                    'app': 'fornew',
+                    'token': token
                 })
             ] + [
+                # get_badge
                 gen_requests('GET', 'https://pharah.gate.panda.tv/badge/get_badge', params={
-                    'token': token.group(1),
+                    'token': token,
                     'type': badge_type
                 }) for badge_type in self.config['badge_types']
             ]
         )
 
-        if res[2].json()['errno'] == 0:
-            countdown = res[2].json()['data']['countdown'] / 1000
+        if res[0].json()['errno'] == 0:
+            countdown = res[0].json()['data']['countdown'] / 1000
             sleep(countdown)  # 7 min normally
-            res.append(self.opener.post('http://lvxing.pgc.panda.tv/api/badge/get', data={
-                'token': token.group(1)
+            # lvxing step 2
+            res.append(opener.post('http://lvxing.pgc.panda.tv/api/badge/get', data={
+                'token': token
             }))
 
         return res
