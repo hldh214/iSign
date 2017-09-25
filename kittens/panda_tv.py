@@ -1,6 +1,5 @@
 from base64 import b64encode
 from functools import partial
-from time import sleep
 
 import grequests
 import requests
@@ -38,10 +37,6 @@ class Kitten:
 
         res = grequests.map(
             [
-                # lvxing step 1
-                gen_requests('GET', 'http://lvxing.pgc.panda.tv/api/badge/task', params={
-                    'token': token
-                }),
                 # client_sign
                 gen_requests('GET', 'https://m.panda.tv/sign/index'),
                 # http://www.panda.tv/sp/fornew2017.html
@@ -57,13 +52,5 @@ class Kitten:
                 }) for badge_type in self.config['badge_types']
             ]
         )
-
-        if res[0].json()['errno'] == 0:
-            countdown = res[0].json()['data']['countdown'] / 1000
-            sleep(countdown)  # 7 min normally
-            # lvxing step 2
-            res.append(opener.post('http://lvxing.pgc.panda.tv/api/badge/get', data={
-                'token': token
-            }))
 
         return res
