@@ -29,9 +29,14 @@ class Kitten:
             'pdftsrc': '{"os":"web","smid":"243a98fe-643d-4218-a85d-b05b08744118"}'
         })
         token = res.cookies.get('I')[-32:]
-
         if not token:
             raise RuntimeError('Fail to get token')
+
+        res = opener.get('https://api.m.panda.tv/ajax_get_token_and_login').json()
+        if res['errno'] != 0:
+            raise RuntimeError('Fail to get api_m_panda')
+        api_m_panda_time = res['data']['time']
+        api_m_panda_token = res['data']['token']
 
         gen_requests = partial(grequests.request, session=opener)
 
@@ -43,6 +48,12 @@ class Kitten:
                 gen_requests('GET', 'http://roll.panda.tv/ajax_sign', params={
                     'app': 'fornew',
                     'token': token
+                }),
+                # school_sigh
+                gen_requests('POST', 'http://api.m.panda.tv/tavern/fortune/user/signin?pt_time={0}&pt_sign={1}'.format(
+                    api_m_panda_time, api_m_panda_token
+                ), data={
+                    'groupid': 101500
                 })
             ] + [
                 # get_badge
