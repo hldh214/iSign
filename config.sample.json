@@ -37,6 +37,7 @@
             "account": "",
             "password": "",
             "pdft": "",
+            "SESSCYPHP": "",
             "badge_types": ["kpl", "pandakill"]
         }
     },

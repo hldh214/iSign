@@ -21,12 +21,15 @@ class Kitten:
 
     def meow(self):
         opener = requests.session()
-        res = opener.get('https://u.panda.tv/ajax_aeskey').json()
+        res = opener.get('https://u.panda.tv/ajax_aeskey', headers={
+            'Cookie': 'SESSCYPHP={0};'.format(self.config['SESSCYPHP'])
+        }).json()
         res = opener.get('https://u.panda.tv/ajax_login', params={
             'account': self.config['account'],
             'password': self.encrypt(self.config['password'], res['data']),
             '__plat': 'pc_web',
-            'pdftsrc': '{"os":"web","smid":"243a98fe-643d-4218-a85d-b05b08744118"}'
+        }, headers={
+            'Cookie': 'SESSCYPHP={0}; pdft={1};'.format(self.config['SESSCYPHP'], self.config['pdft'])
         })
         token = res.cookies.get('I')[-32:]
         if not token:
