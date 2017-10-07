@@ -1,8 +1,17 @@
 # iSign
 
-## A record of my ugly code
+> A record of my ugly code
 
-----------------
+## Table of Contents
+
+- [requirements](#requirements)
+  * [PyCrypto](#pycrypto)
+- [usage](#usage)
+- [run immediately && tests](#run-immediately----tests)
+- [config.sample](#configsample)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 ## requirements
 
