@@ -62,7 +62,7 @@ class Kitten:
                 gen_requests('GET', 'http://king.pgc.panda.tv/api/card/roll', params={
                     'token': token
                 }),
-                # school_sigh
+                # school_sign
                 gen_requests('POST', 'http://api.m.panda.tv/tavern/fortune/user/signin?pt_time={0}&pt_sign={1}'.format(
                     api_m_panda_time, api_m_panda_token
                 ), data={
