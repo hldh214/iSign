@@ -47,25 +47,11 @@ class Kitten:
             [
                 # client_sign
                 gen_requests('GET', 'https://m.panda.tv/sign/index'),
-                # http://www.panda.tv/sp/fornew2017.html
-                gen_requests('GET', 'http://roll.panda.tv/ajax_sign', params={
-                    'app': 'fornew',
-                    'token': token
-                }),
-                # king of panda (3 times per day)
-                gen_requests('GET', 'http://king.pgc.panda.tv/api/card/roll', params={
-                    'token': token
-                }),
-                gen_requests('GET', 'http://king.pgc.panda.tv/api/card/roll', params={
-                    'token': token
-                }),
-                gen_requests('GET', 'http://king.pgc.panda.tv/api/card/roll', params={
-                    'token': token
-                }),
                 # school_sign
                 gen_requests('POST', 'http://api.m.panda.tv/tavern/fortune/user/signin?pt_time={0}&pt_sign={1}'.format(
                     api_m_panda_time, api_m_panda_token
                 ), data={
+                    # WHUES
                     'groupid': 101500
                 })
             ] + [
