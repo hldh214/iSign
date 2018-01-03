@@ -31,9 +31,10 @@ class Kitten:
         }, headers={
             'Cookie': 'SESSCYPHP={0}; pdft={1};'.format(self.config['SESSCYPHP'], self.config['pdft'])
         })
+
+        if res.cookies.get('I') is None:
+            raise RuntimeError('{0} - Fail to get token'.format(self.config['account']))
         token = res.cookies.get('I')[-32:]
-        if not token:
-            raise RuntimeError('Fail to get token')
 
         res = opener.get('https://api.m.panda.tv/ajax_get_token_and_login').json()
         if res['errno'] != 0:
