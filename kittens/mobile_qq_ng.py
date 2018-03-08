@@ -1,6 +1,7 @@
 import grequests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import WebDriverException
 
 
 class Kitten:
@@ -38,7 +39,10 @@ class Kitten:
 
         opener.find_element_by_xpath('//*[@id="go"]').click()
 
-        while opener.get_cookie('skey') is None:
+        try:
+            while opener.get_cookie('skey') is None:
+                pass
+        except WebDriverException:
             pass
 
         skey = opener.get_cookie('skey').get('value')
