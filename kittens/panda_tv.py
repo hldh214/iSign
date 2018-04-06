@@ -21,16 +21,16 @@ class Kitten:
 
     def meow(self):
         opener = requests.session()
-        res = opener.get('https://u.panda.tv/ajax_aeskey', headers={
-            'Cookie': 'SESSCYPHP={0};'.format(self.config['SESSCYPHP'])
-        }).json()
+
+        res = opener.get('https://u.panda.tv/ajax_aeskey').json()
+
         res = opener.get('https://u.panda.tv/ajax_login', params={
+            'regionId': '86',
             'account': self.config['account'],
             'password': self.encrypt(self.config['password'], res['data']),
-            '__plat': 'pc_web',
-        }, headers={
-            'Cookie': 'SESSCYPHP={0}; pdft={1};'.format(self.config['SESSCYPHP'], self.config['pdft'])
-        })
+            'pdft': self.config['pdft'],
+            '__plat': 'android'
+        }).json()
 
         if res.cookies.get('I') is None:
             raise RuntimeError('{0} - Fail to get token'.format(self.config['account']))
