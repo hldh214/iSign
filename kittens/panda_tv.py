@@ -30,7 +30,7 @@ class Kitten:
             'password': self.encrypt(self.config['password'], res['data']),
             'pdft': self.config['pdft'],
             '__plat': 'android'
-        }).json()
+        })
 
         if res.cookies.get('I') is None:
             raise RuntimeError('{0} - Fail to get token'.format(self.config['account']))
