@@ -8,6 +8,10 @@ from importlib import import_module
 from sys import argv, stdout
 from traceback import format_exc
 
+from gevent import monkey as curious_george
+
+curious_george.patch_all(thread=False, select=False)
+
 from schedule import Scheduler
 from requests.exceptions import RequestException
 
