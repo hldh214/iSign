@@ -54,6 +54,10 @@ class Kitten:
                 ), data={
                     # WHUES
                     'groupid': 101500
+                }),
+                # panda kill5 badge
+                gen_requests('POST', 'https://pandakill.pgc.panda.tv/api/badge/take', data={
+                    'token': token
                 })
             ] + [
                 # get_badge
