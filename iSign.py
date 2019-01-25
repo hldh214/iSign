@@ -50,7 +50,7 @@ with open(argv[1]) as fp:
             schedule.every(kitten_schedule['interval']), kitten_schedule['unit']
         )
 
-        if kitten_schedule['at_time'] is not None:
+        if 'at_time' in kitten_schedule:
             schedule_unit = schedule_unit.at(kitten_schedule['at_time'])
 
         if ('multi_thread' in value) and value['multi_thread']:
