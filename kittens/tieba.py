@@ -32,6 +32,10 @@ class Kitten(object):
 
     def meow(self):
         tieba_arr = self.get_liked_tieba()
+
+        if not tieba_arr:
+            raise RuntimeError('Fail to get tieba_arr')
+
         rs = []
         for each in tieba_arr:
             name = each[1]
