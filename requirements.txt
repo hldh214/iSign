@@ -1,5 +1,5 @@
 requests>=2.20.0
 grequests==0.3.0
-schedule==0.4.3
+schedule==0.6.0
 selenium==3.*
 gevent==1.3.*
