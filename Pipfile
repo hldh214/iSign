@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+requests = ">=2.20.0"
+grequests = "==0.6.0"
+schedule = "==1.1.0"
+selenium = "==3.*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"

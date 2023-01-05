@@ -19,7 +19,7 @@ class Kitten(object):
         resp = []
         while 1:
             pn += 1
-            mylike_url = 'http://tieba.baidu.com/f/like/mylike?&pn={0}'.format(pn)
+            mylike_url = 'https://tieba.baidu.com/f/like/mylike?&pn={0}'.format(pn)
             res = requests.get(mylike_url, headers=self.headers).text
             if not re_pn.findall(res):
                 break
